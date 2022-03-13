@@ -12,7 +12,6 @@ Item {
     RowLayout{
         anchors.fill: parent
         Button {
-            Layout.fillHeight: true
             Layout.preferredWidth: 60
             Layout.margins: 0
             text:"打开..."
@@ -45,14 +44,12 @@ Item {
 
         Button{
             id : prevPageButton
-            Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.margins: 0
             text:"上一章"
         }
         Button{
             id : nextPageButton
-            Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.margins: 0
             text:"下一章"

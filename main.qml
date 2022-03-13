@@ -3,7 +3,6 @@ import QtQuick.Window 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Controls.Material 2.2
 import Furrain.FileProcess 1.0
 import Qt.labs.platform 1.1
 ApplicationWindow {
@@ -11,8 +10,6 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("Hello World")
-    Material.theme: Material.Grey
-//    Material.accent: Material.color("red")
 
     FileProcess {
         id : fileProcess
@@ -33,7 +30,7 @@ ApplicationWindow {
                 readOnly: true
                 wrapMode: TextEdit.Wrap
                 selectByMouse : true
-                color:"#98DF58"
+                color:"#000000"
             }
         }
 
@@ -79,8 +76,10 @@ ApplicationWindow {
     function changeState() {
         if (fileProcess.getCurrentIndex() == 1) {
             cb.prev.enabled = false
-        } else if (fileProcess.getCurrentIndex() == fileProcess.getChapterSize()) {
             cb.next.enabled = true
+        } else if (fileProcess.getCurrentIndex() == fileProcess.getChapterSize()) {
+            cb.next.enabled = false
+            cb.prev.enabled = true
         } else {
             cb.next.enabled = true
             cb.prev.enabled = true
