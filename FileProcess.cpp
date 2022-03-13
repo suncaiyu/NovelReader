@@ -34,6 +34,7 @@ void FileProcess::GetFileContent()
 
 void FileProcess::SpliteContent()
 {
+    // TODO:目前这个地方在MSVC编译器下运行有问题，待修复
     spliteContent.clear();
     QRegExp rx("[第]\\w+[章]\\s*\\w+");
     int pos = 0;
@@ -41,6 +42,7 @@ void FileProcess::SpliteContent()
         pos += rx.matchedLength();
         spliteContent.push_back(QPair<qreal, QString>(pos, rx.cap(0)));
     }
+    qDebug() << "splite size====" << spliteContent.size();
 //    for (int i = 0; i < spliteContent.size(); ++i) {
 //        qDebug() << spliteContent.at(i).first << spliteContent.at(i).second;
 //    }
@@ -84,6 +86,7 @@ QStringList FileProcess::GetContents()
 void FileProcess::Prepare()
 {
     GetFileContent();
+//    Reader::Instance().say("这是一个测试");
     SpliteContent();
 }
 

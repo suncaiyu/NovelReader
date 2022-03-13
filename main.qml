@@ -5,11 +5,17 @@ import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.4
 import Furrain.FileProcess 1.0
 import Qt.labs.platform 1.1
+import Furrain.Reader 1.0
+
 ApplicationWindow {
     visible: true
     width: 640
     height: 480
     title: qsTr("Hello World")
+
+    MyReader{
+        id : myreader
+    }
 
     FileProcess {
         id : fileProcess
@@ -70,6 +76,11 @@ ApplicationWindow {
                 ctc.combobox.currentIndex = num - 1
                 changeState()
             }
+            onStartRead: {
+                // TODO：目前只实现了阅读，没有界面跟随滚动的效果
+                var text = showText.text
+                myreader.say(text)
+            }
         }
     }
 
@@ -93,6 +104,7 @@ ApplicationWindow {
         fileProcess.setFilePath(str);
         fileProcess.prepare()
         cb.max = fileProcess.getChapterSize()
+        console.log(fileProcess.getChapterSize())
         var contents = fileProcess.getContents()
         for (var j = 0; j < contents.length; ++j) {
             var ob = {};

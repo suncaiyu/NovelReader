@@ -9,6 +9,7 @@ Item {
     property var max : 0
     signal filePath(var path)
     signal page(var num)
+    signal startRead()
     RowLayout{
         anchors.fill: parent
         Button {
@@ -41,7 +42,15 @@ Item {
             }
             placeholderText: "输入跳转的章节"
         }
-
+        Button{
+            id : readtext
+            Layout.fillWidth: true
+            Layout.margins: 0
+            text:"Read"
+            onClicked: {
+                startRead()
+            }
+        }
         Button{
             id : prevPageButton
             Layout.fillWidth: true

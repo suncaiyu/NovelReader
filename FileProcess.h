@@ -2,7 +2,7 @@
 #define FILEPROCESS_H
 
 #include <QObject>
-
+#include "Reader.h"
 class FileProcess : public QObject
 {
     Q_OBJECT

@@ -1,4 +1,4 @@
-QT += quick quickcontrols2
+QT += quick texttospeech
 QT += widgets
 
 CONFIG += c++11
@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         FileProcess.cpp \
+        Reader.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -32,4 +33,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    FileProcess.h
+    FileProcess.h \
+    Reader.h
