@@ -28,4 +28,10 @@ Reader::Reader()
 {
     qDebug() << "init";
     mSpeech = (new QTextToSpeech());
+    mSpeech->setRate(0.0);
+    connect(mSpeech, &QTextToSpeech::stateChanged, [this](QTextToSpeech::State state){
+        if (state == QTextToSpeech::State::Ready) {
+            stateChangedSignal();
+        }
+    });
 }

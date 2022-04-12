@@ -7,6 +7,7 @@ Item {
     property alias combobox: combobox
     property alias lmodel: lmodel
     property TextArea ta
+    property int lineHeight: 40
     RowLayout {
         anchors.fill: parent
         Layout.margins: 0
@@ -154,21 +155,146 @@ Item {
         }
 
         Label {
+            Layout.preferredWidth: 40
+            text: "行间距"
+            verticalAlignment: Text.AlignVCenter
+        }
+        TextField {
+            Layout.alignment: Qt.AlignVCenter
+            Layout.preferredWidth: 100
+            Layout.preferredHeight: 44
+            validator: RegExpValidator{regExp:/[0-9]+/}
+//            color:"#FFFFFF"
+            onTextChanged: {
+//                var num = parseInt(text)
+//                if (num > 60) {
+//                    text = 60
+//                }
+            }
+            Keys.enabled: true
+            Keys.onEnterPressed: {
+//                page(parseInt(text))
+                lineHeight = parseInt(text)
+                var content = fileProcess.getChapterContent(combobox.currentIndex + 1)
+                showText.text = "<p style='line-height:" + lineHeight +"px; width:100% ; white-space: pre-wrap; '>" + content + "</p>"
+            }
+            Keys.onReturnPressed: {
+//                page(parseInt(text))
+                lineHeight = parseInt(text)
+                var content = fileProcess.getChapterContent(combobox.currentIndex + 1)
+                showText.text = "<p style='line-height:" + lineHeight +"px; width:100% ; white-space: pre-wrap; '>" + content + "</p>"
+            }
+            placeholderText: "间距"
+        }
+
+        Label {
             Layout.preferredWidth: 60
             text: "章节目录"
             verticalAlignment: Text.AlignVCenter
         }
-
         ComboBox {
             id:combobox
             Layout.fillWidth: true
             model : lmodel
             onCurrentIndexChanged: {
                 var content = fileProcess.getChapterContent(combobox.currentIndex + 1)
-                showText.text = content
+                showText.text = "<p style='line-height:" + lineHeight +"px; width:100% ; white-space: pre-wrap; '>" + content + "</p>"
                 changeState()
             }
-        }
+
+            /*显示的文字*/
+//            contentItem: Text {
+//                leftPadding: 10
+//                text: combobox.displayText
+//                font: combobox.font
+//                color: "black"
+//                horizontalAlignment: Text.AlignLeft
+//                verticalAlignment: Text.AlignVCenter
+//                elide: Text.ElideRight
+//            }
+
+            /*显示的背景*/
+//            background: Rectangle {
+//                implicitWidth: combobox.width
+//                implicitHeight: combobox.height
+//                color: "gray"
+//                border.color: "pink"
+//                border.width: 1
+//                radius: 5
+
+//            }
+
+
+            /*下拉图标*/
+            indicator: Canvas {
+                id: canvas
+                x: combobox.width - 20
+                y: (combobox.height)/2-2
+                width: 12
+                height: 7
+                contextType: "2d"
+
+                onPaint: {
+        //            context.reset();
+
+                    context.lineWidth = 2;  //画笔宽度
+                    context.strokeStyle="pink";
+                    context.moveTo(0, 0);
+                    context.lineTo(width/2, height);
+                    context.lineTo(width, 0);
+                    context.stroke();
+        //            context.closePath();
+        //            context.fillStyle = "white";
+        //            context.fill();
+                }
+            }
+
+            /*下拉框的选项*/
+//            delegate: ItemDelegate {
+//                width: combobox.width
+//                contentItem: Rectangle
+//                {
+//                    anchors.fill:parent
+//                    color:hovered ? "gray" : "white"
+//                    height:40
+//                    Text {
+//                        anchors.centerIn: parent
+//                        text: modelData
+//                        color: "black"
+//                        font: combobox.font
+//                        elide: Text.ElideRight
+//                        verticalAlignment: Text.AlignLeft
+//                    }
+//                }
+//            }
+                /*点击后弹出框背景*/
+                popup: Popup {
+                    y: combobox.height - 1
+                    width: combobox.width
+                    implicitHeight: listview.contentHeight
+                    padding: 1
+
+                    contentItem: ListView {
+                        id: listview
+                        clip: true
+                        model: combobox.popup.visible ? combobox.delegateModel : null
+                        currentIndex: combobox.highlightedIndex
+
+                        ScrollIndicator.vertical: ScrollIndicator { }
+
+                        ScrollBar.vertical: ScrollBar {
+                            policy: ScrollBar.AlwaysOn      // 滚动条ce'l策略，这里是永远显示
+                        }
+                    }
+
+                    background: Rectangle {
+                        border.color: "lightgray"
+                        color: "white"
+                        radius: 2
+
+                    }
+                }
+            }
         ListModel{
             id:lmodel
         }

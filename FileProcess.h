@@ -12,6 +12,7 @@ public:
 //    QString GetContext(int size);
     // 识别是中还是英文
     QString GetCorrectUnicode(const QByteArray &ba);
+    bool ifUtf8(const QByteArray &ba);
     QString GetChapterContent(int num);
     // 从1开始，算到spliteContent.size()
     int GetChapterSize() { return spliteContent.size(); }

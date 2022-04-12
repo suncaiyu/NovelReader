@@ -17,6 +17,10 @@ public:
        close();
        mSpeech->deleteLater();
     };
+
+signals:
+    void stateChangedSignal();
+
 private:
     QTextToSpeech *mSpeech;
 //        static Reader *mMe;

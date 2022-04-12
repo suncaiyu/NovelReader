@@ -25,7 +25,7 @@ Item {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 100
             validator: RegExpValidator{regExp:/[0-9]+/}
-            color:"#FFFFFF"
+//            color:"#FFFFFF"
             onTextChanged: {
                 console.log(max)
                 var num = parseInt(text)

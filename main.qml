@@ -15,6 +15,9 @@ ApplicationWindow {
 
     MyReader{
         id : myreader
+         onStateChangedSignal:{
+             console.log("sss")
+         }
     }
 
     FileProcess {
@@ -32,10 +35,11 @@ ApplicationWindow {
             clip: true
             TextArea {
                 id:showText
-                text: "1"
+                text: "<p style='line-height:40px; width:100% ; white-space: pre-wrap; '>" + content + "</p>"
                 readOnly: true
                 wrapMode: TextEdit.Wrap
                 selectByMouse : true
+                textFormat: TextEdit.RichText
                 color:"#000000"
             }
         }
@@ -77,8 +81,11 @@ ApplicationWindow {
                 changeState()
             }
             onStartRead: {
+//                "<p style='line-height:40px; width:100% ; white-space: pre-wrap; '>" + content + "</p>"
                 // TODO：目前只实现了阅读，没有界面跟随滚动的效果
                 var text = showText.text
+//                text = text.replace("<p style='line-height:40px; width:100% ; white-space: pre-wrap; '>", "")
+                text = text.replace("p, li { white-space: pre-wrap; }", "")
                 myreader.say(text)
             }
         }
@@ -101,6 +108,8 @@ ApplicationWindow {
     }
 
     function openFile(str) {
+        ctc.lmodel.clear();
+        showText.clear();
         fileProcess.setFilePath(str);
         fileProcess.prepare()
         cb.max = fileProcess.getChapterSize()

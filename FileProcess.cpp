@@ -16,6 +16,18 @@ QString FileProcess::GetCorrectUnicode(const QByteArray &ba)
     return text;
 }
 
+bool FileProcess::ifUtf8(const QByteArray &ba)
+{
+    QTextCodec::ConverterState state;
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    QString text = codec->toUnicode(ba.constData(), ba.size(), &state);
+    if (state.invalidChars > 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 void FileProcess::GetFileContent()
 {
     mContent.clear();
@@ -24,6 +36,12 @@ void FileProcess::GetFileContent()
         qDebug() << "file open fail";
     }
     QTextStream readFile(&file);
+    QString tmp = readFile.readLine();
+    if (ifUtf8(tmp.toLocal8Bit())) {
+        readFile.setCodec(QTextCodec::codecForName("UTF-8"));
+    }
+    readFile.seek(0);
+//    readFile.setCodec(QTextCodec::codecForName("UTF-8"));
     while(!readFile.atEnd()) {
         mContent += readFile.readLine();
         mContent += "\n";
